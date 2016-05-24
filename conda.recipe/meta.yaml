@@ -1,0 +1,47 @@
+{% set short_version = environ.get('GIT_DESCRIBE_TAG', '')[1:] or environ.get('GIT_FULL_HASH', '') %}
+{% set version_suffix = '+' + environ.get('GIT_DESCRIBE_NUMBER', '0') + '.' + environ.get('GIT_DESCRIBE_HASH', '0') if environ.get('GIT_DESCRIBE_NUMBER', '0') != '0' else "" %}
+{% set version = short_version + version_suffix %}
+
+package:
+  name: bh_tsne
+  version: {{ version }}
+
+source:
+  git_url: ..
+
+build:
+  # No need for this yet.
+  skip: true  # [win]
+  number: 0
+  features:
+    - vc9               # [win and py27]
+    - vc10              # [win and py34]
+    - vc14              # [win and py35]
+
+requirements:
+  build:
+    - toolchain
+    - python
+
+  run:
+    - python
+    - numpy
+
+test:
+  imports:
+    - bhtsne
+
+  commands:
+    # Check CLI exist
+    - test -f "${PREFIX}/bin/bh_tsne"      # [unix]
+    - python -m bhtsne --help
+    - bhtsne --help
+
+about:
+  home: https://github.com/lvdmaaten/bhtsne
+  license: BSD 4-Clause
+  summary: Barnes-Hut implementation of the t-SNE algorithm.
+
+extra:
+  recipe-maintainers:
+    - jakirkham
