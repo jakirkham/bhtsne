@@ -15,11 +15,11 @@ BIN_FILE="bh_tsne"
 PY_BIN_FILE="bhtsne"
 
 # Compiler flags
-export CFLAGS="-O2"
-export CXXFLAGS="${CFLAGS}"
+export CFLAGS="${CFLAGS} -O2"
+export CXXFLAGS="${CXXFLAGS} -O2"
 
 # Compile the binary
-c++ $SOURCE_FILES -o $BIN_FILE
+$CXX $CXXFLAGS $SOURCE_FILES -o $BIN_FILE
 
 # Place the binary in the prefix
 mkdir -p "${PREFIX}/bin"
